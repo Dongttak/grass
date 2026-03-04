@@ -1,0 +1,1 @@
+SELECT B.TITLE, B.BOARD_ID, R.REPLY_ID, R.WRITER_ID, R.CONTENTS, date_format(R.Created_date, '%Y-%m-%d') as CREATED_DATE from used_goods_board b join used_goods_reply r on r.BOARD_ID=b.board_id where year(b.created_date)=2022 and month(b.created_date)=10 order by r.created_date, b.title;
