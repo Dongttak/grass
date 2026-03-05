@@ -1,26 +1,29 @@
 from collections import deque
 def solution(maps):
-    answer = 0
-    row=len(maps)
-    column=len(maps[0])
+    cand=[]
+    n=len(maps) #y
+    m=len(maps[0]) #x
+    print(m, n)
+    
     dx=[0,1,0,-1]
     dy=[1,0,-1,0]
-    visited=[[False] * column for i in range(row)]
-    queue=deque()
-    queue.append((0,0))
+    visited=[[False]*m for _ in range(n)]
     visited[0][0]=True
-    while queue:
-        now=queue.popleft()
-        for i in range(4):
-            sero=now[0]+dy[i]
-            garo=now[1]+dx[i]
-            if garo>=0 and garo<column and sero>=0 and sero<row and maps[sero][garo]!=0 and not visited[sero][garo]:
-                maps[sero][garo]=maps[now[0]][now[1]]+1
-                visited[sero][garo]=True
-                queue.append((sero, garo))
-
-    if maps[row-1][column-1]==1:
-        return -1
     
+    q=deque()
+    q.append((0,0,1))
+    while q:
+        y,x,c=q.popleft()
+        if y==n-1 and x==m-1:
+            cand.append(c)
+            
+        for i in range(4):
+            nx=x+dx[i]
+            ny=y+dy[i]
+            if nx>=0 and nx<m and ny>=0 and ny<n and not visited[ny][nx] and maps[ny][nx]!=0:
+                q.append((ny,nx,c+1))
+                visited[ny][nx]=True
                 
-    return maps[row-1][column-1]
+    if cand:
+        return min(cand)
+    return -1
