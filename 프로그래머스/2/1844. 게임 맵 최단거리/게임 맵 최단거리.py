@@ -1,29 +1,21 @@
 from collections import deque
+
 def solution(maps):
-    cand=[]
-    n=len(maps) #y
-    m=len(maps[0]) #x
-    print(m, n)
+    n=len(maps) #y좌표
+    m=len(maps[0]) #x좌표
     
     dx=[0,1,0,-1]
     dy=[1,0,-1,0]
-    visited=[[False]*m for _ in range(n)]
-    visited[0][0]=True
-    
     q=deque()
     q.append((0,0,1))
     while q:
-        y,x,c=q.popleft()
-        if y==n-1 and x==m-1:
-            cand.append(c)
-            
+        nx,ny,cnt=q.popleft()
         for i in range(4):
-            nx=x+dx[i]
-            ny=y+dy[i]
-            if nx>=0 and nx<m and ny>=0 and ny<n and not visited[ny][nx] and maps[ny][nx]!=0:
-                q.append((ny,nx,c+1))
-                visited[ny][nx]=True
-                
-    if cand:
-        return min(cand)
-    return -1
+            nxtx=nx+dx[i]
+            nxty=ny+dy[i]
+            if nxtx>=0 and nxtx<m and nxty>=0 and nxty<n and maps[nxty][nxtx]==1:
+                maps[nxty][nxtx]=cnt+1
+                q.append((nxtx, nxty, cnt+1))
+    if maps[n-1][m-1]==1:
+        return -1
+    return maps[n-1][m-1]
